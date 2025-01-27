@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  database:
+    container_name: postgres-toothfixers
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    volumes:
+      - C:\Users\DELL\data\postgres\csc2022:\data\postgres
+    env_file:
+      - toothfixers.env

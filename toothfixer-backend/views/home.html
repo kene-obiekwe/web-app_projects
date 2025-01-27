@@ -1,0 +1,26 @@
+{% extends "l1.html" %}
+
+{% block body %}
+<div class="grid-container">
+    <div class="navigation-bar grid-item-row-1">
+        <div class="navigation-bar-left">
+            <div>
+                <a href="/" class="active">Home</a>
+            </div>
+            <div>
+                <a href="/about-us">About Us</a>
+            </div>
+            <div>
+                <a href="/patient-biodata/create">Create Patient Records</a>
+            </div>
+            <div>
+                <a href="/patient-biodata/view">View Patient Records</a>
+            </div>
+        </div>
+    </div>
+    <div class="welcome-section">
+        <h1>Welcome to ToothFixers</h1>
+        <p>Your smile is our priority. We offer comprehensive dental care for the whole family.</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends "l1.html" %}
+
+{% block body %}
+
+<div class="grid-container">
+    <div class="navigation-bar">
+        <a href="/">Home</a>
+        <a href="/patient-biodata/create" class="active">Create Patient Biodata</a>
+    </div>
+    <div class="grid-item-row-2">
+        <form class="box" id="createUserForm" action="/patient-biodata" method="POST">
+            <fieldset id="createUserFormFieldSet" class="container">
+                <div class="field">
+                    <label class="label">First Name:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="firstName" name="First_Name" type="text" placeholder="First name" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Surname:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="surname" name="Surname" type="text" placeholder="Surname" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Middle Name:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="middleName" name="Middle_Name" type="text" placeholder="Middle Name">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Date of Birth:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="dateOfBirth" name="Date_of_Birth" type="date" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="yyyy-mm-dd">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Home Address:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="homeAddress" name="Home_Address" type="text" placeholder="Home Address" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Date of Registration:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="dateOfRegistration" name="Date_of_Registration" type="date" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="yyyy-mm-dd">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Developer's Matriculation Number:</label>
+                    <div class="control has-icons-right">
+                        <input class="input" id="matriculationNumber" name="Matriculation_Number" type="hidden" value="_22120613021">
+                        <span>_22120613021</span>
+                    </div>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button type="submit" id="submitCreateUserForm" class="button is-link is-small">Submit</button>
+                    </div>
+                    <div class="control">
+                        <button type="reset" class="button is-light is-small">Clear</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div id="notification" class="notification container is-hidden animated slideInUp">
+            <button class="delete"></button>
+            <div id="notificationMessage">
+                {{notificationMessage}}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+<script>
+    const createUserForm = document.getElementById('createUserForm');
+
+    createUserForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        // Get fields and check validities
+        const firstName = document.getElementById('firstName').value;
+        if (firstName == '') {
+            document.getElementById('firstName').reportValidity();
+            return false;
+        }
+
+        const surname = document.getElementById('surname').value;
+        if (surname == '') {
+            document.getElementById('surname').reportValidity();
+            return false;
+        }
+
+        const middleName = document.getElementById('middleName').value;
+        const dateOfBirth = document.getElementById('dateOfBirth').value;
+        if (dateOfBirth == '') {
+            document.getElementById('dateOfBirth').reportValidity();
+            return false;
+        }
+
+        const homeAddress = document.getElementById('homeAddress').value;
+        if (homeAddress == '') {
+            document.getElementById('homeAddress').reportValidity();
+            return false;
+        }
+
+        const dateOfRegistration = document.getElementById('dateOfRegistration').value;
+        if (dateOfRegistration == '') {
+            document.getElementById('dateOfRegistration').reportValidity();
+            return false;
+        }
+
+        // Start the button spinner
+        document.getElementById("submitCreateUserForm").classList.add("is-loading");
+
+        // Prepare init for fetch
+        const init = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                First_Name: firstName,
+                Surname: surname,
+                Middle_Name: middleName,
+                Date_of_Birth: dateOfBirth,
+                Home_Address: homeAddress,
+                Date_of_Registration: dateOfRegistration,
+                Matriculation_Number: '_22120613021'
+            })
+        };
+
+        // Call fetch
+        fetch('/patient-biodata', init)
+            .then(response => response.json())
+            .then(data => {
+                // Remove spinner class
+                document.getElementById("submitCreateUserForm").classList.remove("is-loading");
+                // Set notification
+                document.getElementById("notificationMessage").innerHTML = 'Patient Biodata creation successful';
+                // Add notification color class sent
+                document.getElementById("notification").classList.add("is-success");
+                // Remove is-hidden from notificationWrapper
+                document.getElementById("notification").classList.remove("is-hidden");
+
+            })
+            .catch(error => {
+                // Remove spinner class
+                document.getElementById("submitCreateUserForm").classList.remove("is-loading");
+
+                document.getElementById("notificationMessage").innerHTML = error.message;
+                // Add notification color class sent
+                document.getElementById("notification").classList.add("is-danger");
+                // Remove is-hidden from notificationWrapper
+                document.getElementById("notification").classList.remove("is-hidden");
+
+            });
+    });
+</script>

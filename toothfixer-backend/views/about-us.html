@@ -1,0 +1,28 @@
+{% extends "l2.html" %}
+
+{% block body %}
+<div class="grid-container">
+    <div class="navigation-bar grid-item-row-1">
+        <div class="navigation-bar-left">
+            <div>
+                <a href="/" >Home</a>
+            </div>
+            <div>
+                <a href="/about-us" class="active">About Us</a>
+            </div>
+        </div>
+    </div>
+    <div class="about-us-section grid-item-row-2">
+        <h1>About Us</h1>
+        <p>Welcome to our revolutionary web application designed for ToothFixers' dental clinic. Our platform allows multiple dentists to efficiently manage their patients' clinical records.</p>
+        <p>Features of our application include:</p>
+        <ul>
+            <li><strong>Create:</strong> Add new patient records easily.</li>
+            <li><strong>Read:</strong> View detailed patient information at a glance.</li>
+            <li><strong>Update:</strong> Modify existing patient records with up-to-date information.</li>
+            <li><strong>Delete:</strong> Remove patient records as needed.</li>
+        </ul>
+        <p>Our mission is to streamline dental clinic operations and improve patient care through technology.</p>
+    </div>
+</div>
+{% endblock %}
